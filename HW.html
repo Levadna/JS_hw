@@ -4,9 +4,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        body{
+            background-color: rgb(229, 255, 112);
+        }
+        .dark{
+            background-color: black;
+            color: white;
+        }
+        img{
+            transition: 0.3s;
+        }
+
+        .big{
+            transform: scale(2);
+        }
+    </style>
 </head>
 <body>
-    <button id="open">OPEN POPUP</button>
-    <script type="module" src="main.js"></script>
+    <p>Lorem ipsum <i>dolor</i>, sit amet consectetur adipisicing elit. Cupiditate assumenda tenetur, iusto aliquid placeat fuga dolor pariatur mollitia sunt saepe consequatur facere perferendis nihil, eum nesciunt enim exercitationem dicta totam?</p>
+    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cupiditate assumenda tenetur, iusto aliquid placeat fuga dolor pariatur mollitia sunt saepe consequatur facere perferendis nihil, eum nesciunt enim exercitationem dicta totam?</p>
+
+    <ul id="list">
+    <li>1111</li>
+    <li>2222</li>
+    <li>3333</li>
+    <li>4444</li>
+    </ul>
+
+    <!--Фільтр-->
+    <div>
+        <button data-filter="all">All</button>
+        <button data-filter="phone">Phone</button>
+        <button data-filter="laptop">Laptop</button>
+    </div>
+    <ul id = "product-list">
+        <li data-category = "phone">iPhone 17</li>
+        <li data-category="laptop">MacBook Pro</li>
+        <li data-category="phone">Samsung Galaxy</li>
+        <li data-category="laptop">Dell XPS</li>
+    </ul>
+    <div class="container">
+    <div>TEST DIV</div>
+    </div>
+    <p data-test="123">DATA TEST</p>
+    <img src="https://cdn-icons-png.flaticon.com/256/7603/7603322.png" />
+    <img src="https://cdn-icons-png.flaticon.com/256/7603/7603322.png" />
+    <img src="https://cdn-icons-png.flaticon.com/256/7603/7603322.png" />
+    <script src="script.js"></script>
 </body>
 </html>
