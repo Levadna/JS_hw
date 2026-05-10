@@ -1,56 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
         body{
-            background-color: rgb(229, 255, 112);
+            margin:0;
+            height:100vh;
+            display:flex;
+            font-family:Arial;
         }
-        .dark{
-            background-color: black;
-            color: white;
+        .btn{
+            flex:1;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            font-size:40px;
+            text-decoration:none;
+            color:white;
+            transition:0.3s;
         }
-        img{
-            transition: 0.3s;
+        .btn:hover{
+            transform:scale(0.98);
+            filter:brightness(120%);
         }
-
-        .big{
-            transform: scale(2);
+        .block{
+            background:#ff4da6;
+        }
+        .text{
+            background:#6a5acd;
+        }
+        .image{
+            background:#00b894;
         }
     </style>
 </head>
 <body>
-    <p>Lorem ipsum <i>dolor</i>, sit amet consectetur adipisicing elit. Cupiditate assumenda tenetur, iusto aliquid placeat fuga dolor pariatur mollitia sunt saepe consequatur facere perferendis nihil, eum nesciunt enim exercitationem dicta totam?</p>
-    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cupiditate assumenda tenetur, iusto aliquid placeat fuga dolor pariatur mollitia sunt saepe consequatur facere perferendis nihil, eum nesciunt enim exercitationem dicta totam?</p>
-
-    <ul id="list">
-    <li>1111</li>
-    <li>2222</li>
-    <li>3333</li>
-    <li>4444</li>
-    </ul>
-
-    <!--Фільтр-->
-    <div>
-        <button data-filter="all">All</button>
-        <button data-filter="phone">Phone</button>
-        <button data-filter="laptop">Laptop</button>
-    </div>
-    <ul id = "product-list">
-        <li data-category = "phone">iPhone 17</li>
-        <li data-category="laptop">MacBook Pro</li>
-        <li data-category="phone">Samsung Galaxy</li>
-        <li data-category="laptop">Dell XPS</li>
-    </ul>
-    <div class="container">
-    <div>TEST DIV</div>
-    </div>
-    <p data-test="123">DATA TEST</p>
-    <img src="https://cdn-icons-png.flaticon.com/256/7603/7603322.png" />
-    <img src="https://cdn-icons-png.flaticon.com/256/7603/7603322.png" />
-    <img src="https://cdn-icons-png.flaticon.com/256/7603/7603322.png" />
-    <script src="script.js"></script>
+    <a href="div.html" class="btn block">BLOCK</a>
+    <a href="text.html" class="btn text">TEXT</a>
+    <a href="image.html" class="btn image">IMAGE</a>
 </body>
 </html>

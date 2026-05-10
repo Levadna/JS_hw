@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            background-color: peachpuff;
+            color: black;
+        }
+        #template {
+            width: 200px;
+            height: 200px;
+            background-color: brown;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        form input,
+        form select {
+            display: block;
+            margin-bottom: 10px;
+            width:100%;
+        }
+        #cont
+        {
+            display: flex;
+             height: 100vh;
+        }
+        #setings {
+            width: 300px;
+            background: peachpuff;
+            color: black;
+            padding: 15px;
+            overflow-y: auto;
+        }
+        .workspace {
+            flex: 1;
+            background: lightblue;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="cont">
+        <div id="setings">
+            <h1>Setings</h1>
+    <form id="setStyle">
+        Width
+        <input name="width" type="range" max="1000" min="10" value="200">
+        Height
+        <input name="height" type="range" min="10" max="700" value="200"><br>
+        Background color
+        <input name="bg" type="color"><br>
+        Enable border
+        <input type="checkbox" name="borderCheck">
+        Border color
+        <input name="borderColor" type="color"><br>
+        Border Style
+        <select name="borderStyle">
+            <option value="solid">solid</option>
+            <option value="dashed">dashed</option>
+            <option value="dotted">dotted</option>
+            <option value="double">double</option>
+            <option value="groove">groove</option>
+        </select><br>
+        Border width
+        <input name="borderWidth" type="range" min="0" max="100" value="0"><br>
+        Block radius
+        <input name="radius" type="range" min="0" max="100" value="0"><br>
+        Shadow
+        <input type="checkbox" name="shadowCheck">
+        Blur
+        <input name="blur" type="range" min="0" max="100">
+        Shadow Color
+        <input name="shadowColor" type="color">
+        Shadow X
+        <input name="shadowX" type="range" min="-50" max="50">
+        Shadow Y
+        <input name="shadowY" type="range" min="-50" max="50">
+        Opacity
+        <input name="opacity" type="range" min="0" max="100" value="100">
+        Padding
+        <input name="padding" type="range" min="0" max="100">
+        Rotate
+        <input name="rotate" type="range" min="0" max="360">
+        Transition
+        <input type="checkbox" name="transition">
+        Text size
+        <input name="fontSize" type="range" min="10" max="50" value="16"><br>
+        Text location
+        <select name="textAlign">
+            <option value="left">Left</option>
+            <option value="center" selected>Center</option>
+            <option value="right">Right</option>
+        </select>
+        <pre id="cssOutput"></pre>
+    </form>
+        </div>
+        <div class="workspace">
+        <div id="template">Template</div>
+    </div>
+    </div>
+    
+    <script src="div_script.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            background-color: peachpuff;
+            color: black;
+        }
+        #cont {
+            display: flex;
+            height: 100vh;
+        }
+        #setings {
+            width: 310px;
+            background: peachpuff;
+            color: black;
+            padding: 15px;
+            overflow-y: auto;
+        }
+        .workspace {
+            flex: 1;
+            background: lightblue;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #template {
+            width: 300px;
+            height: 300px;
+            object-fit: cover;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        form input,
+        form select {
+            display: block;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+<div id="cont">
+    <div id="setings">
+        <h1>Setings</h1>
+        <form id="setStyle">
+            Image URL
+            <input type="text" name="imgUrl" placeholder="Enter image URL: ">
+            <button type="button" id="applyImg">Apply image</button>
+            Object Fit
+            <select name="fit">
+                <option value="cover">cover</option>
+                <option value="contain">contain</option>
+                <option value="fill">fill</option>
+            </select>
+            Width
+            <input name="width" type="range" min="50" max="700" value="300">
+            Height
+            <input name="height" type="range" min="50" max="700" value="300">
+            Enable border
+            <input type="checkbox" name="borderCheck">
+            Border Color
+            <input name="borderColor" type="color">
+            Border Style
+            <select name="borderStyle">
+                <option value="solid">solid</option>
+                <option value="dashed">dashed</option>
+                <option value="dotted">dotted</option>
+                <option value="double">double</option>
+                <option value="groove">groove</option>
+            </select>
+            Border Width
+            <input name="borderWidth" type="range" min="0" max="50">
+            Radius
+            <input name="radius" type="range" min="0" max="200">
+            Shadow
+            <input type="checkbox" name="shadowCheck">
+            Blur
+            <input name="blur" type="range" min="0" max="100">
+            Shadow Color
+            <input name="shadowColor" type="color">
+            Shadow X
+            <input name="shadowX" type="range" min="-50" max="50">
+            Shadow Y
+            <input name="shadowY" type="range" min="-50" max="50">
+            Opacity
+            <input name="opacity" type="range" min="0" max="100" value="100">
+            Rotate
+            <input name="rotate" type="range" min="0" max="360">
+            Brightness
+            <input name="brightness" type="range" min="0" max="200" value="100">
+            Contrast
+            <input name="contrast" type="range" min="0" max="200" value="100">
+            Grayscale
+            <input name="grayscale" type="range" min="0" max="100">
+            Sepia
+            <input name="sepia" type="range" min="0" max="100">
+            <pre id="cssOutput"></pre>
+        </form>
+    </div>
+    <div class="workspace">
+        <img
+        src="https://picsum.photos/500"
+        id="template">
+    </div>
+</div>
+<script src="image.js"></script>
+</body>
+</html>
