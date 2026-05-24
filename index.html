@@ -1,257 +1,136 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-     <style>
-        /* 1 */
-        /* body{
+    <style>
+        body{
             margin: 0;
-        }
-        #field{
-            width: 100vw;
-            height: 100vh;
-            background-image: url("https://img.freepik.com/premium-vector/football-field-soccer-field-with-green-grass-effect-design_240580-4.jpg?semt=ais_hybrid&w=740&q=80");
-            background-size: cover;
-            position: relative;
-            overflow: hidden;
-        }
-        #ball{
-            width: 100px;
-            height: 100px;
-            position: absolute;
-            left: 0;
-            top: 0;
-            transition: 0.3s;
-        } */
-
-        /* 2 */
-        /* input{
-            width: 300px;
-            height: 40px;
-            font-size: 20px;
-        }
-        p{
-            color: red;
-        } */
-
-        /* 3 */
-        /* .item{
-            width: 500px;
-            border: 1px solid black;
-        }
-        h3{
-            margin: 0;
-            padding: 10px;
-            background-color: royalblue;
-            color: white;
-            cursor: pointer;
-        }
-        p{
-            display: none;
-            margin: 0;
-            background-color: lightblue;
+            padding: 20px;
+            background-color: papayawhip;
             color: black;
-        } */
-
-        /* 4 */
-        /* body{
-            height: 3000px;
-            background-color: blanchedalmond;
+            font-family: Arial;
         }
-        #up{
-            background-color: lightcoral;
-            position: fixed;
-            right: 20px;
-            bottom: 20px;
-            padding: 15px;
-            display: none;
-        } */
-
-        /* 5 */
-        /* body{
-            background-color: blanchedalmond;
-        }
-         #text{
-            width: 500px;
-            min-height: 200px;
-            padding: 10px;
-        }
-        textarea{
-            width: 500px;
-            height: 200px;
-        } */
-
-        /* 6 */
-        /* body{
-            background-color: blanchedalmond;
-        }
-        table{
-            border-collapse: collapse;
-        }
-        td{
-            width: 100px;
-            height: 30px;
-            border: 1px solid black;
+        h1{
             text-align: center;
-        } */
-
-        /* 7 */
-        body
-        {
-            background-color: blanchedalmond;
+            margin-bottom: 30px;
         }
-        #list{
-            background-color: white;
-            width: 300px;
+        .container{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
         }
-        .item{
+        #players{
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+        .card{
+            width: 250px;
+            background-color: darkgray;
+            border: 2px solid gray;
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: grab;
+            transition: 0.3s;
+        }
+        .card:hover{
+            transform: scale(1.03);
+            border-color: gold;
+        }
+        .card img{
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+        .info{
+            padding: 15px;
+        }
+        .info h2{
+            margin-top: 0;
+        }
+        .skills{
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        .stats p{
+            margin: 5px 0;
+        }
+        #team{
+            width: 90%;
+            min-height: 300px;
+            border: 3px dashed gold;
+            border-radius: 15px;
+            padding: 20px;
+            background-color: #2b2b2b;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            align-content: flex-start;
+        }
+        #team h2{
+            width: 100%;
+            text-align: center;
+            margin-top: 0;
+        }
+        #team.hovered{
+            border-color: gold;
+            background-color: #3a3a3a;
+        }
+        .teamCard{
+            width: 220px;
+            background-color: #444;
             padding: 10px;
-            cursor: pointer;
+            border-radius: 10px;
         }
-        .item:hover{
-            background-color: lightgray;
+        .teamCard img{
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        #message{
+            text-align: center;
+            color: tomato;
+            font-size: 20px;
+            margin-bottom: 20px;
+            height: 30px;
+        }
+        .buttons{
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        button{
+            padding: 12px 25px;
+            font-size: 18px;
+            cursor: pointer;
+            border: none;
+            border-radius: 10px;
         }
     </style>
 </head>
 <body>
-    <!-- 1 -->
-    <!-- <div id="field">
-        <img id="ball" src="https://cdn-icons-png.flaticon.com/512/53/53283.png" alt="">
-    </div> -->
-
-    <!-- 2 -->
-    <!-- Enter your name (name can`t contain digits): <br>
-    <input type="text" id="name">
-    <p id="message"></p> -->
-
-    <!-- 3 -->
-    <!-- <div class="item">
-        <h3>What is Lorem Ipsum?</h3>
-        <p>Lorem Ipsum is standard placeholder text used in graphic design, web development, and publishing. Designers use it to fill a page's layout and demonstrate typography without the actual content distracting the viewer.</p>
+    <h1>Fantasy Team Builder</h1>
+    <div id="message"></div>
+    <div class="container">
+        <div id="players"></div>
+        <div id="team">
+            <h2>Team</h2>
+        </div>
     </div>
-    <div class="item">
-        <h3>Why do we use it?</h3>
-        <p>We use Lorem Ipsum as placeholder text in design and publishing. It prevents viewers from being distracted by readable content, allowing them to focus entirely on layout, typography, and visual hierarchy.</p>
+    <div class="buttons">
+        <button id="clearBtn">Clear Team</button>
+        <button id="saveBtn">Save Team</button>
     </div>
-    <div class="item">
-        <h3>Where does it come from</h3>
-        <p>Lorem Ipsum is a garbled, corrupted version of a 1st-century BC Latin text by the Roman philosopher Cicero. Printers began scrambling the text in the 1500s to create meaningless placeholder copy.</p>
-    </div>
-    <div class="item">
-        <h3>Where can I get some?</h3>
-        <p>You can generate or copy Lorem Ipsum instantly using dedicated online tools, built-in word processor commands, or design plugins.</p>
-    </div> -->
-
-    <!-- 4 -->
-    <!-- <button id="up">⬆</button>
-        <h3>What is Lorem Ipsum?</h3>
-        <p>Lorem Ipsum is standard placeholder text used in graphic design, web development, and publishing. Designers use it to fill a page's layout and demonstrate typography without the actual content distracting the viewer.</p>
-    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Commodi ad cumque rerum, tempore corporis in repellendus voluptates perspiciatis eaque voluptatem nam, dignissimos vitae fuga consequuntur vero, illo molestiae labore repudiandae.
-    Tempore, neque vel quisquam quam iure aut perspiciatis incidunt fugiat quae obcaecati consequuntur quos ullam saepe odit, facilis similique quod necessitatibus ipsa atque soluta molestiae maxime qui. Quasi, eveniet rerum.
-    Beatae eveniet tempora fugiat iusto iste quam incidunt expedita veniam consequuntur cupiditate voluptas minus molestias ipsum, temporibus placeat commodi esse vitae. Molestias excepturi ab, dolorem numquam earum voluptatibus dolorum laboriosam.
-    Et obcaecati odit dolore sunt, ipsam velit modi ipsa optio, delectus aliquid quae debitis, accusantium esse odio! Maxime perferendis delectus, veritatis id molestiae sequi modi dignissimos cum nobis expedita ipsam.
-    Quam, dolorem cumque laboriosam in rerum inventore sapiente aspernatur incidunt quia blanditiis doloremque vitae molestias corporis cum ducimus quaerat voluptas aliquid quis! Harum, eligendi deserunt sapiente beatae aliquam possimus aperiam!
-    Similique qui, ipsum dolor excepturi eius ipsam perspiciatis cupiditate vitae hic natus voluptatem vel maiores quas unde doloribus ex inventore. Labore, repellendus minima. Reprehenderit nam laudantium doloribus natus impedit eius!
-    Molestias necessitatibus esse non nemo harum itaque natus a laborum maiores tenetur vero, iusto quisquam architecto perferendis quaerat obcaecati minus nesciunt exercitationem ratione velit nobis at. Illo quis labore dolores!
-    Dolore ea tenetur explicabo earum cum quasi, atque neque fugit a recusandae. Quidem officiis error, explicabo, incidunt voluptatibus commodi facilis impedit reiciendis earum aut sunt et dicta dolore repellendus corporis!
-    Voluptatem, recusandae cupiditate cumque harum reprehenderit, aliquam sunt in, accusamus veniam molestias blanditiis. Placeat, velit. Similique modi quos doloremque perferendis quibusdam incidunt corrupti asperiores, necessitatibus sapiente, sed optio commodi ab.
-    Quo ut, quas totam, id culpa sunt labore excepturi consequatur, sit enim necessitatibus alias illo tempora non et perspiciatis voluptatibus eveniet? Asperiores deserunt exercitationem, delectus cum odit quod dolores odio?
-    <hr color="black">
-        <h3>Why do we use it?</h3>
-        <p>We use Lorem Ipsum as placeholder text in design and publishing. It prevents viewers from being distracted by readable content, allowing them to focus entirely on layout, typography, and visual hierarchy.</p>
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum atque, odit fugiat eaque libero minus doloribus numquam obcaecati, non, necessitatibus odio debitis totam. Reiciendis similique itaque aperiam. Corrupti, porro impedit?
-    Repellat omnis accusantium dolorem debitis magnam harum dolore est exercitationem, explicabo voluptatibus ipsam voluptates. Inventore corrupti maiores dignissimos maxime error aperiam unde, necessitatibus cumque ipsam tempora eius officia excepturi nihil!
-    Doloribus, harum magni! Dicta reprehenderit, officiis aliquam, dolorum hic laboriosam odit eaque incidunt, possimus voluptatum quam praesentium voluptate quasi quas! Pariatur voluptatibus aliquid nihil nisi quia eius, velit quis libero?
-    Quis quasi in reiciendis porro mollitia fugit, facere voluptatibus reprehenderit distinctio maxime, labore quibusdam autem nulla consectetur tempore ducimus velit tempora error sed necessitatibus? Quos eaque molestiae perspiciatis excepturi enim.
-    Delectus vitae, consequuntur amet sapiente sit corrupti ratione similique deserunt, eius iste atque nulla, cumque numquam recusandae harum nemo saepe eos est eligendi facere modi animi? Quas minus doloribus corrupti.
-    Ut quam quia sequi ducimus similique quae hic earum et aliquam praesentium repellendus officia itaque corporis, quibusdam nam! Eos excepturi, explicabo culpa eveniet sequi nobis perspiciatis recusandae dicta qui pariatur!
-    Non eum, et cupiditate officiis quibusdam, aspernatur eveniet consequuntur autem, magnam minima tempore delectus possimus repudiandae. Unde laboriosam sunt vero recusandae. Modi, nisi ea neque numquam obcaecati reiciendis facilis quae.
-    Distinctio est asperiores dignissimos iste totam quaerat pariatur saepe, sed nam odit ullam perspiciatis quia, dolorem officiis facilis praesentium maiores nostrum minus alias soluta at aliquid ipsa vitae unde. Accusamus.
-    Facilis numquam quam culpa perferendis repellat esse debitis perspiciatis consequuntur quas suscipit, maiores saepe, incidunt laboriosam veritatis iste harum, iusto magni dolorum quibusdam atque natus alias aspernatur eveniet. Dolor, ullam?
-    Est reiciendis hic voluptatem quo veniam officiis, similique officia fuga, laborum earum, repellat in ipsam illo iure obcaecati totam modi perferendis odio asperiores atque quibusdam laudantium nobis architecto. Iusto, rem.
-    Debitis possimus saepe asperiores accusantium doloribus quaerat itaque libero, id alias, placeat dolorem natus sint officia, amet facere sed fugiat at aliquam? Nesciunt distinctio nisi autem suscipit temporibus, quo maxime!
-    <hr color="black">
-        <h3>Where does it come from</h3>
-        <p>Lorem Ipsum is a garbled, corrupted version of a 1st-century BC Latin text by the Roman philosopher Cicero. Printers began scrambling the text in the 1500s to create meaningless placeholder copy.</p>
-    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ad, nihil similique, suscipit illum deserunt mollitia laborum debitis totam repellendus, quas quibusdam beatae exercitationem earum. Qui temporibus consectetur aperiam sequi et.
-    Reprehenderit repellendus illo obcaecati provident sunt blanditiis, ipsa qui quae quibusdam quasi vitae dolorem accusantium deleniti impedit veniam porro at tempora sit perspiciatis totam autem. Nulla architecto vero est nam.
-    Possimus vel alias non impedit nostrum porro, eaque neque, ab architecto repudiandae voluptatem quam hic repellendus enim temporibus eligendi sit saepe autem fugiat rerum. Voluptatem officia nostrum tenetur quod nulla?
-    Dignissimos et quo molestias cumque nihil repellat nostrum harum omnis nulla rerum voluptates provident necessitatibus atque autem animi velit, accusantium, aut facilis ut officiis. Earum consectetur magni distinctio dolores repellendus.
-    Nisi est reprehenderit culpa. Doloribus, corporis. Omnis excepturi ratione officiis ducimus eos nam, nisi necessitatibus dolor possimus repellendus, tempore nihil, incidunt asperiores inventore minima veniam. Repellat ex beatae odit quae!
-    Eum nisi excepturi cum ex voluptatem harum sit, omnis error ab. Distinctio, quo sequi eos nostrum deserunt ipsum nemo praesentium, autem repellat architecto ea delectus ullam voluptas. Aut, dolor eum.
-    Libero iure culpa placeat quibusdam, id distinctio dolorem facere neque saepe quos unde inventore aperiam quia esse eveniet vel facilis doloremque a voluptates, deserunt ab obcaecati. Numquam ut sint nobis.
-    Qui error sapiente fugit placeat! In, neque nulla. Quam hic modi alias maiores sit nostrum dignissimos veritatis laborum delectus, voluptate consectetur est doloremque asperiores officia nobis. Architecto perferendis commodi rem?
-    Voluptatibus tempore voluptatum quisquam sint, porro modi quibusdam reprehenderit perferendis recusandae, quam, voluptate ipsa repudiandae earum maxime! Quam non magni nisi laboriosam ducimus quasi, nihil aspernatur quae eos dicta voluptatum?
-    Officia natus est quibusdam modi adipisci officiis laborum eum soluta maxime quia distinctio esse dicta nulla omnis sed accusantium deleniti in earum dolor asperiores deserunt, vero ut nam! Culpa, magni.
-    Quidem maiores voluptatum corrupti aliquam obcaecati, quae, cum fuga, veritatis illum quam sapiente. Quod praesentium unde soluta quisquam omnis molestiae dolore rerum assumenda! Tenetur reprehenderit officiis velit nostrum error architecto?
-    Eligendi ad ducimus sunt amet omnis quod ipsum quam quisquam! Consequuntur vel alias, quaerat adipisci, atque dicta sunt voluptates, ipsa quae veniam eligendi. Nisi, odio. Veniam quod nobis et blanditiis!
-    Obcaecati, dolorum assumenda quas dolor rem ducimus asperiores similique odit deserunt laboriosam. Perspiciatis provident necessitatibus odio placeat temporibus maxime minima! Praesentium nulla laboriosam et unde asperiores inventore in omnis alias?
-    Fugit dolores impedit porro ipsam laboriosam, aperiam hic nam veritatis sapiente placeat numquam ratione. Nam sed, quam provident voluptate repellat suscipit delectus eum explicabo itaque dolorem vitae. Nemo, consequatur ad.
-    Quam quo quia assumenda eius ex inventore natus rerum. Dignissimos excepturi ducimus doloremque, fuga aspernatur minima pariatur vero voluptatibus dolorum maxime nobis, aliquid exercitationem sed iusto esse animi totam quam.
-    <hr color="black">
-        <h3>Where can I get some?</h3>
-        <p>You can generate or copy Lorem Ipsum instantly using dedicated online tools, built-in word processor commands, or design plugins.</p>
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod, ut? Voluptates fugit totam amet impedit, quis, cum laboriosam molestiae esse nihil et recusandae vitae tenetur voluptatum harum ipsa repellendus ab.
-    Ad temporibus delectus dicta dolores quo quaerat corrupti maiores fuga inventore, magni unde perspiciatis at praesentium accusamus ratione voluptate? Dolores repellendus ipsum, veritatis esse repellat doloremque. Delectus voluptatem quaerat commodi!
-    Odio, suscipit labore ab repudiandae sint harum aut nihil, ea hic illum nemo cupiditate. Rerum unde esse sequi exercitationem maxime illo consectetur, debitis facilis soluta labore praesentium sint vitae modi?
-    Nam quaerat tempora libero distinctio minima quibusdam ullam pariatur aliquam, accusamus eligendi! Nemo voluptatibus molestiae laborum pariatur quibusdam voluptatum voluptate, eius numquam distinctio placeat architecto officia dolorem voluptas. Delectus, eum!
-    Repellendus sit iure in commodi similique error facere modi eaque, laudantium dicta molestiae, molestias laborum, sequi dolores! Similique labore ab quidem voluptatem omnis. Fuga, nam! Pariatur mollitia voluptatem dicta alias!
-    Voluptatem illo magnam dolores officia, libero fuga accusantium ex dolorum rem cupiditate omnis tempore suscipit, necessitatibus laboriosam modi asperiores repellat! Pariatur magnam distinctio, fugiat sequi quae fuga! Ex, obcaecati ipsum.
-    Dicta nisi, iusto consectetur culpa, dolorem amet esse possimus natus maxime quibusdam, voluptatem quos. Atque quae illo officiis earum saepe ea repudiandae vero, explicabo, id consectetur est at aliquam in.
-    Quam libero necessitatibus quis, repellat sed, expedita impedit vel non reprehenderit odio nostrum perspiciatis iure ipsum eos praesentium delectus numquam consequatur in dolorum. Iusto, ea voluptate commodi nulla dolores quia.
-    Illo totam odit inventore porro eius deleniti veritatis rerum vero non ratione aliquam, consequatur voluptate vitae quasi tenetur eligendi expedita. Repellendus itaque commodi eaque ex, id vel dolorem doloribus cupiditate.
-    Est excepturi ullam numquam ducimus placeat. Veniam quisquam distinctio error accusantium? Temporibus, esse odio animi voluptatum, velit asperiores quibusdam eveniet harum ullam fuga sequi mollitia nam voluptate cum alias error!
-    Itaque aliquam similique reprehenderit ratione minus aperiam voluptate! Labore assumenda maiores, distinctio corrupti ea ipsum eius totam quisquam consectetur, aspernatur laborum voluptatem accusantium eaque neque tempore excepturi cupiditate! Aliquid, repellat!
-    Itaque placeat eaque explicabo harum labore quidem commodi est, perferendis cum distinctio asperiores expedita corrupti, nulla sint. Vero, voluptatibus aliquid, labore voluptas atque voluptates vitae nesciunt suscipit ratione quaerat facilis!
-    Quibusdam inventore saepe placeat laudantium. Perferendis itaque ut a est, at voluptate temporibus velit, eius, sunt voluptas iure laboriosam saepe voluptatum veritatis quos voluptates quo quam in repudiandae corporis error!
-    Deserunt debitis commodi aut. Suscipit vitae rem dolorem enim doloribus corrupti deserunt laudantium dolores beatae pariatur quasi voluptas mollitia, possimus tempore dolor voluptate, nisi quis, laboriosam amet. Culpa, delectus possimus?
-    Perferendis voluptate, quaerat iste praesentium consequatur neque ad explicabo pariatur veritatis nostrum deleniti enim facere, saepe rem minima dolorem vitae ullam exercitationem. Fugit, assumenda animi! Ea saepe corrupti error incidunt! -->
-
-    <!-- 5 -->
-    <!-- <p>Press Ctrl+E for edit text.</p>
-    <p>Press Ctrl+S for save text.</p>
-    <hr color="black" width="500px" align="left">
-    <div id="text">Lorem ipsum dolor sit amet 
-        consectetur adipisicing elit. Obcaecati 
-        odit consectetur et voluptatem odio 
-        necessitatibus facere sint ratione atque 
-        eum assumenda est ex quia omnis, maiores 
-        consequatur quisquam, neque eligendi.</div> -->
-
-    <!-- 6 -->
-    <!-- <table>
-        <tr>
-            <td><b>Firstname</b></td>
-            <td><b>Lasrname</b></td>
-            <td><b>Company</b></td>
-        </tr>
-        <tr>
-            <td>Bill</td>
-            <td>Gates</td>
-            <td>Microsoft</td>
-        </tr>
-        <tr>
-            <td>Timothy</td>
-            <td>Cook</td>
-            <td>Apple</td>
-        </tr>
-        <tr>
-            <td>Larry</td>
-            <td>Page</td>
-            <td>Google</td>
-        </tr>
-        <tr>
-            <td>Mark</td>
-            <td>Zuckerberg</td>
-            <td>FaceBook</td>
-        </tr>
-    </table> -->
-
-    <!-- 7 -->
-    <input type="text" id="country">
-    <div id="list"></div>
 
     <script src="script.js"></script>
 </body>

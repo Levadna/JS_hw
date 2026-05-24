@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            margin: 0;
+            padding: 20px;
+            background-color: beige;
+            font-family: Arial;
+        }
+        h2{
+            text-align: center;
+        }
+        #users{
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+        .user{
+            width: 220px;
+            padding: 20px;
+            border: 1px solid gray;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 22px;
+        }
+        .user:hover{
+            background-color: white;
+            font-weight: bold;
+        }
+        #info{
+            width: 90%;
+            margin: auto;
+        }
+        table{
+            width: 100%;
+            border-collapse: collapse;
+        }
+        td{
+            border: 1px solid gray;
+            padding: 15px;
+            font-size: 22px;
+        }
+        #postsBtn{
+            width: 100%;
+            margin-top: 20px;
+            padding: 10px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        #posts{
+            width: 90%;
+            margin: 40px auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .post{
+            width: 500px;
+            min-height: 200px;
+            border: 1px solid gray;
+            background-color: white;
+            padding: 20px;
+        }
+        .post h3{
+            text-align: center;
+            font-size: 20px;
+        }
+        .post p{
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <h2>All users:</h2>
+    <div id="users"></div>
+    <div id="info"></div>
+    <div id="posts"></div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
