@@ -36,7 +36,7 @@ for(let c = 0; c < brickColumnCount; c++) {
             bricks[c][r] = {
                 x: 0,
                 y: 0,
-                status: 1
+                status: Math.random() < 0.4 ? 2 : 1
             };
         }
         else
@@ -55,8 +55,8 @@ function drawBricks()
 {
     for(let r = 0; r < brickRowCount; r++)
     {
-        const bricksInRow = brickColumnCount - r;
-        const startX = r * 40;
+        const bricksInRow = brickColumnCount;
+        const startX = (r % 2 === 0) ? 0 : 40;
 
         for(let c = 0; c < bricksInRow; c++)
         {
@@ -70,10 +70,16 @@ function drawBricks()
             bricks[c][r].x = brickX;
             bricks[c][r].y = brickY;
 
-            // рисуем только активные
-            if(bricks[c][r].status === 1)
+            if(bricks[c][r].status > 0)
             {
-                ctx.fillStyle = "green";
+                if(bricks[c][r].status === 2)
+                {
+                    ctx.fillStyle = "orange";
+                }
+                else
+                {
+                    ctx.fillStyle = "green";
+                }
 
                 ctx.fillRect(
                     brickX,
@@ -81,6 +87,17 @@ function drawBricks()
                     brickWidth,
                     brickHeight
                 );
+
+                if(bricks[c][r].status === 2)
+                {
+                    ctx.fillStyle = "white";
+                    ctx.font = "16px Arial";
+                    ctx.fillText(
+                        "2",
+                        brickX + 30,
+                        brickY + 15
+                    );
+                }
             }
         }
     }
@@ -147,7 +164,7 @@ function drawScore()
     ctx.fillText("Score: " + score, 650, 30);
 }
 
-//PAuse
+//PAUSE
 function drawPause()
 {
     ctx.font = "48px Arial";
@@ -207,12 +224,22 @@ function collisionDetection() // зіткнення
         for(let r = 0; r < brickRowCount; r++)
         {
             const b = bricks[c][r];
-            if(b.status === 1) //активний 
+            if(b.status > 0)
             {
-                if(ball.x > b.x && ball.x < b.x + brickWidth && ball.y > b.y && ball.y < b.y + brickHeight)
+                if(
+                    ball.x > b.x &&
+                    ball.x < b.x + brickWidth &&
+                    ball.y > b.y &&
+                    ball.y < b.y + brickHeight
+                )
                 {
-                    b.status = 0;
-                    score += 10;
+                    b.status--;
+
+                    if(b.status === 0)
+                    {
+                        score += 10;
+                    }
+
                     ball.dy *= -1;
                 }
             }
@@ -226,7 +253,7 @@ function checkWin()
     {
         for(let r = 0; r < brickRowCount; r++)
         {
-            if(bricks[c][r].status === 1)
+            if(bricks[c][r].status > 0)
             {
                 return false;
             }
@@ -259,8 +286,8 @@ function animate()
     collisionDetection();
     if(checkWin())
     {
-        alert("Рівень 1 пройдено!");
-        window.location.href = "level2.html";
+        alert("Рівень 2 пройдено!");
+        window.location.href = "level3.html";
         return;
     }
     //рух кульки
@@ -276,7 +303,7 @@ function animate()
     {
         ball.dy *= -1;
     }
-
+    
     // Нижня границя + платформа
     if(
         ball.dy > 0 &&

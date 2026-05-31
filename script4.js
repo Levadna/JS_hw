@@ -8,14 +8,13 @@ startBtn.addEventListener("click", () => {
     animate();
 });
 
-
 const canvas = document.querySelector('#myCanvas');
 const ctx = canvas.getContext("2d");
 
 
-const brickRowCount = 5;
-const brickColumnCount = 8;
-const brickWidth = 70;
+const brickRowCount = 8;
+const brickColumnCount = 10;
+const brickWidth = 55;
 const brickHeight = 20;
 const brickPadding = 10;
 const brickOffsetTop = 40;
@@ -24,39 +23,43 @@ let lives = 3;
 let score = 0;
 let gameOver = false;
 let paused = false;
- 
+const potions = [];
+let expandTimer = 0;
+
+
 const bricks = [];
  
-for(let c = 0; c < brickColumnCount; c++) {
+const levelMap = [
+[0,1,1,0,0,0,0,1,1,0],
+[1,1,1,1,1,1,1,1,1,1],
+[1,1,-1,1,1,1,1,-1,1,1],
+[1,1,-1,1,1,1,1,-1,1,1],
+[1,1,1,1,1,1,1,1,1,1],
+[1,3,3,1,-1,-1,1,3,3,1],
+[1,1,3,3,3,3,3,3,1,1],
+[0,-1,1,1,-1,1,1,1,-1,0]
+];
+
+for(let c = 0; c < brickColumnCount; c++)
+{
     bricks[c] = [];
- 
-    for(let r = 0; r < brickRowCount; r++) {
-        if(c < brickColumnCount - r)
-        {
-            bricks[c][r] = {
-                x: 0,
-                y: 0,
-                status: 1
-            };
-        }
-        else
-        {
-            bricks[c][r] = {
-                x: 0,
-                y: 0,
-                status: 0
-            };
-        }
+
+    for(let r = 0; r < brickRowCount; r++)
+    {
+        bricks[c][r] = {
+            x: 0,
+            y: 0,
+            status: levelMap[r][c]
+        };
     }
 }
-
 // ================= РИСОВАНИЕ БЛОКОВ =================
 function drawBricks()
 {
     for(let r = 0; r < brickRowCount; r++)
     {
-        const bricksInRow = brickColumnCount - r;
-        const startX = r * 40;
+        const bricksInRow = brickColumnCount;
+        const startX = (r % 2 === 0) ? 0 : 40;
 
         for(let c = 0; c < bricksInRow; c++)
         {
@@ -70,10 +73,24 @@ function drawBricks()
             bricks[c][r].x = brickX;
             bricks[c][r].y = brickY;
 
-            // рисуем только активные
-            if(bricks[c][r].status === 1)
+            if(bricks[c][r].status !== 0)
             {
-                ctx.fillStyle = "green";
+                if(bricks[c][r].status === -1)
+                {
+                    ctx.fillStyle = "gray";
+                }
+                else if(bricks[c][r].status === 3)
+                {
+                    ctx.fillStyle = "red";
+                }
+                else if(bricks[c][r].status === 2)
+                {
+                    ctx.fillStyle = "orange";
+                }
+                else
+                {
+                    ctx.fillStyle = "green";
+                }
 
                 ctx.fillRect(
                     brickX,
@@ -81,6 +98,18 @@ function drawBricks()
                     brickWidth,
                     brickHeight
                 );
+
+                if(bricks[c][r].status > 1)
+                {
+                    ctx.fillStyle = "white";
+                    ctx.font = "16px Arial";
+
+                    ctx.fillText(
+                        bricks[c][r].status,
+                        brickX + 30,
+                        brickY + 15
+                    );
+                }
             }
         }
     }
@@ -88,7 +117,7 @@ function drawBricks()
 
 // ================= ПЛАТФОРМА =================
 const paddle = {
-    width: 120,
+    width: 90,
     height: 15,
     x: canvas.width / 2 - 60,
     y: canvas.height - 30,
@@ -147,7 +176,7 @@ function drawScore()
     ctx.fillText("Score: " + score, 650, 30);
 }
 
-//PAuse
+//PAUSE
 function drawPause()
 {
     ctx.font = "48px Arial";
@@ -163,6 +192,43 @@ function drawControls()
     ctx.font = "18px Arial";
     ctx.fillStyle = "gray";
     ctx.fillText("Space - Pause", 300, 30);
+}
+
+//POTION
+function drawPotions()
+{
+    for(const potion of potions)
+    {
+        if(potion.type === "life")
+        {
+            ctx.fillStyle = "purple";
+        }
+        else
+        {
+            ctx.fillStyle = "cyan";
+        }
+        ctx.fillRect(
+            potion.x,
+            potion.y,
+            potion.width,
+            potion.height
+        );
+    }
+}
+
+//BONUS
+function drawBonusTimer()
+{
+    if(expandTimer > 0)
+    {
+        ctx.font = "20px Arial";
+        ctx.fillStyle = "blue";
+        ctx.fillText(
+            "Big Paddle: " + Math.ceil(expandTimer / 60),
+            300,
+            60
+        );
+    }
 }
 
 //Керування
@@ -207,12 +273,46 @@ function collisionDetection() // зіткнення
         for(let r = 0; r < brickRowCount; r++)
         {
             const b = bricks[c][r];
-            if(b.status === 1) //активний 
+            if( ball.x > b.x && ball.x < b.x + brickWidth && ball.y > b.y && ball.y < b.y + brickHeight )
             {
-                if(ball.x > b.x && ball.x < b.x + brickWidth && ball.y > b.y && ball.y < b.y + brickHeight)
+                // сірий блок
+                if(b.status === -1)
                 {
-                    b.status = 0;
-                    score += 10;
+                    ball.dy *= -1;
+                    return;
+                }
+                // звичайні блоки
+                if(b.status > 0)
+                {
+                    b.status--;
+
+                    if(b.status === 0)
+                    {
+                        score += 10;
+                        const random = Math.random();
+                    if(random < 0.07)
+                    {
+                        potions.push({
+                            x: b.x + brickWidth / 2,
+                            y: b.y,
+                            width: 20,
+                            height: 20,
+                            speed: 1.5,
+                            type: "life"
+                        });
+                    }
+                    else if(random < 0.15)
+                    {
+                        potions.push({
+                            x: b.x + brickWidth / 2,
+                            y: b.y,
+                            width: 20,
+                            height: 20,
+                            speed: 1.5,
+                            type: "expand"
+                        });
+                    }
+                    }
                     ball.dy *= -1;
                 }
             }
@@ -226,7 +326,7 @@ function checkWin()
     {
         for(let r = 0; r < brickRowCount; r++)
         {
-            if(bricks[c][r].status === 1)
+            if(bricks[c][r].status > 0)
             {
                 return false;
             }
@@ -248,10 +348,47 @@ function animate()
         requestAnimationFrame(animate);
         return;
     }
+    for(let i = potions.length - 1; i >= 0; i--)
+    {
+        const potion = potions[i];
+        potion.y += potion.speed;
+        if(
+            potion.y + potion.height > paddle.y &&
+            potion.x > paddle.x &&
+            potion.x < paddle.x + paddle.width
+        )
+        {
+            if(potion.type === "life")
+            {
+                lives++;
+            }
+            else if(potion.type === "expand")
+            {
+                paddle.width = 180;
+                expandTimer += 10 * 60;
+            }
+            potions.splice(i, 1);
+            continue;
+        }
+        if(potion.y > canvas.height)
+        {
+            potions.splice(i, 1);
+        }
+    }
+    if(expandTimer > 0)
+    {
+        expandTimer--;
+        if(expandTimer === 0)
+        {
+            paddle.width = 90;
+        }
+    }
     ctx.clearRect(0,0, canvas.width, canvas.height);
     drawBall();
     drawPaddle();
     drawBricks();
+    drawPotions();
+    drawBonusTimer();
     drawLives();
     drawScore();
     drawControls();
@@ -259,8 +396,8 @@ function animate()
     collisionDetection();
     if(checkWin())
     {
-        alert("Рівень 1 пройдено!");
-        window.location.href = "level2.html";
+        alert("Рівень 4 пройдено!");
+        window.location.href = "level5.html";
         return;
     }
     //рух кульки
@@ -276,7 +413,7 @@ function animate()
     {
         ball.dy *= -1;
     }
-
+    
     // Нижня границя + платформа
     if(
         ball.dy > 0 &&
