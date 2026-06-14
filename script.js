@@ -1,326 +1,138 @@
-const menu = document.getElementById("menu");
-const startBtn = document.getElementById("startBtn");
-let gameStarted = false;
+const items = [
+ { id: 1, name: "Ноутбук", category: "tech" },
+ { id: 2, name: "Яблуко", category: "food" },
+ { id: 3, name: "Смартфон", category: "tech" },
+ { id: 4, name: "Хліб", category: "food" },
+ { id: 5, name: "Навушники", category: "tech" }
+];
 
-startBtn.addEventListener("click", () => {
-    menu.style.display = "none";
-    gameStarted = true;
-    animate();
+
+const techCount =
+items.filter(
+    item => item.category === "tech"
+).length;
+let time = 30;
+let timer;
+let score = 0;
+
+$(function ()
+{
+    updateRecord();
+    restartGame();
+});
+
+function renderItems() {
+    $('#items').empty();
+    items.forEach(item => {
+    $('#items').append(`
+    <div class="item"
+    draggable="true"
+    data-id="${item.id}"
+    data-category="${item.category}">
+    ${item.name}
+    </div>
+    `);
+    });
+}
+
+$(document).on('dragstart', '.item', function (e)
+{
+    e.originalEvent.dataTransfer.setData(
+        'category',
+        $(this).data('category')
+    );
+    e.originalEvent.dataTransfer.setData(
+        'id',
+        $(this).data('id')
+    );
 });
 
 
-const canvas = document.querySelector('#myCanvas');
-const ctx = canvas.getContext("2d");
+$("#basket").on( "dragover", function (e)
+    {
+        e.preventDefault();
+    }
+);
 
+$("#basket").on( "dragenter", function ()
+    {
+        $(this).addClass("hover");
+    }
+);
 
-const brickRowCount = 5;
-const brickColumnCount = 8;
-const brickWidth = 70;
-const brickHeight = 20;
-const brickPadding = 10;
-const brickOffsetTop = 40;
-const brickOffsetLeft = 35;
-let lives = 3;
-let score = 0;
-let gameOver = false;
-let paused = false;
- 
-const bricks = [];
- 
-for(let c = 0; c < brickColumnCount; c++) {
-    bricks[c] = [];
- 
-    for(let r = 0; r < brickRowCount; r++) {
-        if(c < brickColumnCount - r)
+$("#basket").on( "dragleave", function ()
+    {
+        $(this).removeClass("hover");
+    }
+);
+
+$('#basket').on('drop', function (e) {
+        e.preventDefault();
+        $(this).removeClass("hover");
+        const category =
+        e.originalEvent.dataTransfer.getData( "category" );
+        const id =
+        e.originalEvent.dataTransfer.getData( "id" );
+        if(category === 'tech')
         {
-            bricks[c][r] = {
-                x: 0,
-                y: 0,
-                status: 1
-            };
-        }
-        else
+            score++;
+            $('#score').text(score);
+            updateRecord();
+            const item =
+$(`.item[data-id='${id}']`);
+$("#basket").append(item);
+item.attr("draggable", false);
+        } else
         {
-            bricks[c][r] = {
-                x: 0,
-                y: 0,
-                status: 0
-            };
+            alert('Це не електроніка!');
         }
-    }
-}
-
-// ================= РИСОВАНИЕ БЛОКОВ =================
-function drawBricks()
-{
-    for(let r = 0; r < brickRowCount; r++)
+        if(score === techCount)
     {
-        const bricksInRow = brickColumnCount - r;
-        const startX = r * 40;
+    clearInterval(timer);
+    alert( "Вітаємо! Ви зібрали всю електроніку!" );
+    }
+    }
+);
 
-        for(let c = 0; c < bricksInRow; c++)
+function restartGame()
+{
+    score = 0;
+    time = 30;
+    $('#score').text(score);
+    $('#timer').text(time);
+
+    $("#basket").html(`
+        <h2>Кошик</h2>
+        <p>Перетягніть тільки електроніку</p>
+    `);
+    renderItems();
+    clearInterval(timer);
+    timer = setInterval(function ()
+    {
+        time--;
+        $("#timer").text(time);
+        if(time <= 0)
         {
-            const brickX =
-                c * (brickWidth + brickPadding) + startX;
-
-            const brickY =
-                r * (brickHeight + brickPadding) + brickOffsetTop;
-
-            // СОХРАНЯЕМ КООРДИНАТЫ
-            bricks[c][r].x = brickX;
-            bricks[c][r].y = brickY;
-
-            // рисуем только активные
-            if(bricks[c][r].status === 1)
-            {
-                ctx.fillStyle = "green";
-
-                ctx.fillRect(
-                    brickX,
-                    brickY,
-                    brickWidth,
-                    brickHeight
-                );
-            }
+            clearInterval(timer);
+            alert("Час вийшов!");
+            restartGame();
         }
-    }
+    }, 1000);
 }
 
-// ================= ПЛАТФОРМА =================
-const paddle = {
-    width: 120,
-    height: 15,
-    x: canvas.width / 2 - 60,
-    y: canvas.height - 30,
-    speed: 7,
-    color: "blue",
-    moveLeft: false,
-    moveRight: false
-};
-
-function drawPaddle()
+$('#restart').on('click', function ()
 {
-    ctx.fillStyle = paddle.color;
-    ctx.fillRect(
-        paddle.x,
-        paddle.y,
-        paddle.width,
-        paddle.height
-    );
-}
+    restartGame();
+});
 
-drawPaddle();
-
-drawBricks();
-//Кулька
-  const ball = {
-    x: 400,
-    y: 400,
-    radius: 20,
-    dx: -4,   // швидкість по X
-    dy: -3,   // швидкість по Y
-    color: "orange"
-  };
-
-function drawBall()
+function updateRecord()
 {
-    ctx.beginPath();
-    ctx.fillStyle = ball.color;
-    ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.closePath();
+    let record =
+    parseInt( localStorage.getItem("record")) || 0;
+    if(score > record)
+    {
+        record = score;
+        localStorage.setItem( "record", record );
+    }
+    $("#record").text(record);
 }
-
-//LIVES
-function drawLives()
-{
-    ctx.font = "24px Arial";
-    ctx.fillStyle = "red";
-    ctx.fillText("Lives: " + lives, 20, 30);
-}
-
-//SCORE
-function drawScore()
-{
-    ctx.font = "24px Arial";
-    ctx.fillStyle = "black";
-    ctx.fillText("Score: " + score, 650, 30);
-}
-
-//PAuse
-function drawPause()
-{
-    ctx.font = "48px Arial";
-    ctx.fillStyle = "red";
-    ctx.fillText(
-        "PAUSE",
-        canvas.width / 2 - 80,
-        canvas.height / 2
-    );
-}
-function drawControls()
-{
-    ctx.font = "18px Arial";
-    ctx.fillStyle = "gray";
-    ctx.fillText("Space - Pause", 300, 30);
-}
-
-//Керування
-document.addEventListener("keydown", keyDownHandler);
-document.addEventListener("keyup", keyUpHandler);
-document.addEventListener("keydown", pauseHandler);
-function keyDownHandler(event)
-{
-    if(event.key === "Right" || event.key === "ArrowRight")
-    {
-        paddle.moveRight = true;
-    }
-    if(event.key === "Left" || event.key === "ArrowLeft")
-    {
-        paddle.moveLeft = true;
-    }
-}
-function keyUpHandler(event)
-{
-    if(event.key === "Right" || event.key === "ArrowRight")
-    {
-        paddle.moveRight = false;
-    }
-    if(event.key === "Left" || event.key === "ArrowLeft")
-    {
-        paddle.moveLeft = false;
-    }
-}
-function pauseHandler(event)
-{
-    if(event.code === "Space")
-    {
-        paused = !paused;
-    }
-}
-
-// колізія
-function collisionDetection() // зіткнення
-{
-    for(let c = 0; c < brickColumnCount; c++)
-    {
-        for(let r = 0; r < brickRowCount; r++)
-        {
-            const b = bricks[c][r];
-            if(b.status === 1) //активний 
-            {
-                if(ball.x > b.x && ball.x < b.x + brickWidth && ball.y > b.y && ball.y < b.y + brickHeight)
-                {
-                    b.status = 0;
-                    score += 10;
-                    ball.dy *= -1;
-                }
-            }
-        }
-    }
-}
-
-function checkWin()
-{
-    for(let c = 0; c < brickColumnCount; c++)
-    {
-        for(let r = 0; r < brickRowCount; r++)
-        {
-            if(bricks[c][r].status === 1)
-            {
-                return false;
-            }
-        }
-    }
-    return true;
-}
-
-
-function animate()
-{
-    if(gameOver)
-    {
-        return;
-    }
-    if(paused)
-    {
-        drawPause();
-        requestAnimationFrame(animate);
-        return;
-    }
-    ctx.clearRect(0,0, canvas.width, canvas.height);
-    drawBall();
-    drawPaddle();
-    drawBricks();
-    drawLives();
-    drawScore();
-    drawControls();
-
-    collisionDetection();
-    if(checkWin())
-    {
-        alert("Рівень 1 пройдено!");
-        window.location.href = "level2.html";
-        return;
-    }
-    //рух кульки
-    ball.x += ball.dx;
-    ball.y += ball.dy;
-    // Відбивання від стін
-    //ball.dx *= -1; // зміна напрямку по х 
-    if (ball.x + ball.radius > canvas.width || ball.x - ball.radius < 0)
-    {
-        ball.dx *= -1;
-    }
-    if(ball.y - ball.radius < 0)
-    {
-        ball.dy *= -1;
-    }
-
-    // Нижня границя + платформа
-    if(
-        ball.dy > 0 &&
-        ball.y + ball.radius >= paddle.y &&
-        ball.x > paddle.x &&
-        ball.x < paddle.x + paddle.width
-    )
-    {
-        ball.dy *= -1;
-        ball.y = paddle.y - ball.radius;
-    }
-
-    if(ball.y - ball.radius > canvas.height)
-    {
-        lives--;
-        if(lives > 0)
-        {
-            ball.x = canvas.width / 2;
-            ball.y = canvas.height - 100;
-
-            ball.dx = 4;
-            ball.dy = -4;
-
-            paddle.x = canvas.width / 2 - paddle.width / 2;
-        }
-        else
-        {
-            gameOver = true;
-            alert("Game Over!");
-            document.location.reload();
-            return;
-        }
-    }
-
-    //рух платформи
-    if(paddle.moveRight && paddle.x + paddle.width < canvas.width)
-    {
-        paddle.x += paddle.speed
-    }
-    if(paddle.moveLeft && paddle.x > 0)
-    {
-        paddle.x -= paddle.speed
-    }
-    requestAnimationFrame(animate)
-}
-// drawBall()
-//animate()
